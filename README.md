@@ -51,7 +51,7 @@ En el proyecto se aplican distintos conceptos de Programación Orientada a Objet
 
 ## Diagrama de clases
 Para visualizar el diagrama de clases, da clic abajo:
-[Diagrama de clases](./Diagrama%20de%20clases.png)
+[Diagrama de clases](./Diagrama%20de%20clases.pdf)
 
 ## Ejecución del programa
 Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
