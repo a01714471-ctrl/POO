@@ -3,7 +3,7 @@
 ## Liga de Basketball en c++
 Este proyecto consiste en el desarrollo de un sistema de gestión de una liga de basketball utilizando Programación Orientada a Objetos en C++. El sistema fue diseñado a partir de un diagrama de clases UML que representa la estructura de una liga deportiva real, incluyendo conferencias, equipos, jugadores, entrenadores y balones.
 
-El objetivo principal del proyecto es aplicar conceptos de POO como herencia, encapsulamiento, composición y agregación, además de modelar correctamente un problema real mediante clases y relaciones entre objetos.
+El objetivo principal del proyecto es aplicar conceptos de POO como herencia, encapsulamiento y agregación, además de modelar correctamente un problema real mediante clases y relaciones entre objetos.
 
 ## Identificación de clases
 Para resolver el problema se identificaron las siguientes clases principales:
