@@ -41,14 +41,6 @@ Durante el desarrollo se identificaron algunos casos que podrían provocar error
 
 Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
 
-## Conceptos de POO utilizados
-En el proyecto se aplican distintos conceptos de Programación Orientada a Objetos.
-1. Encapsulamiento, mediante atributos privados/protegidos y métodos getters/setters.
-2. Herencia, player y Coach heredan de Person.
-3. Composición, un Team contiene jugadores, entrenador y balón.
-4. Agregación, una League contiene conferencias y una Conference contiene equipos.
-5. Abstracción, cada clase representa una entidad del mundo real.
-
 ## Diagrama de clases
 Para visualizar el diagrama de clases, da clic abajo:
 [Diagrama de clases](./Diagrama%20de%20clases.pdf)
