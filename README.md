@@ -44,13 +44,3 @@ Para evitar estos problemas se deben implementar validaciones en cada método qu
 ## Diagrama de clases
 Para visualizar el diagrama de clases, da clic aquí:
 [Diagrama de clases](./Diagrama%20de%20clases.pdf)
-
-## Ejecución del programa
-Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
-1. Ubíquese en la carpeta donde se encuentra main.cpp junto con todos los archivos .h.
-2. Posteriormente, ejecute el siguiente comando:
-  g++ main.cpp -o programa
-  Esto genera el archivo ejecutable programa.exe.
-3. Ejecución
-   Ejecute el siguiente comando:
-   .\programa.exe
