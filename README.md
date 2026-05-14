@@ -42,7 +42,7 @@ Durante el desarrollo se identificaron algunos casos que podrían provocar error
 Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
 
 ## Diagrama de clases
-Para visualizar el diagrama de clases, da clic abajo:
+Para visualizar el diagrama de clases, da clic aquí:
 [Diagrama de clases](./Diagrama%20de%20clases.pdf)
 
 ## Ejecución del programa
