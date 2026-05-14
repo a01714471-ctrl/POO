@@ -1,2 +1,71 @@
-# POO
-Repositorio en el se estarán subiendo los avances del proyecto
+# Proyecto programación orientada a objetos
+
+## Liga de Basketball en c++
+Este proyecto consiste en el desarrollo de un sistema de gestión de una liga de basketball utilizando Programación Orientada a Objetos en C++. El sistema fue diseñado a partir de un diagrama de clases UML que representa la estructura de una liga deportiva real, incluyendo conferencias, equipos, jugadores, entrenadores y balones.
+
+El objetivo principal del proyecto es aplicar conceptos de POO como herencia, encapsulamiento, composición y agregación, además de modelar correctamente un problema real mediante clases y relaciones entre objetos.
+
+## Identificación de clases
+Para resolver el problema se identificaron las siguientes clases principales:
+
+-League: administra toda la liga y las conferencias.
+-Conference: representa una conferencia que contiene equipos.
+-EastConference y WestConference: especializaciones de Conference.
+-Team: representa un equipo de basketball.
+-Person: clase base para personas dentro del sistema.
+-Player: representa a un jugador.
+-Coach: representa a un entrenador.
+-Ball: representa el balón utilizado por un equipo.
+
+Estas clases fueron seleccionadas porque representan directamente los elementos necesarios para modelar una liga deportiva y permiten dividir correctamente las responsabilidades del sistema.
+
+## Relación entre el UML y el problema
+El diagrama UML representa cómo interactúan los distintos elementos de una liga de basketball real.
+
+La clase League contiene conferencias, ya que una liga puede estar formada por varias conferencias. A su vez, cada Conference administra distintos equipos (Team).
+
+Cada equipo cuenta con:
+
+-varios jugadores
+-un entrenador
+-un balón.
+
+La herencia entre Person, Player y Coach permite reutilizar atributos comunes como nombre y edad. Además, las clases EastConference y WestConference permiten especializar las conferencias dependiendo de la región.
+
+Gracias a esta estructura, el diagrama UML se relaciona directamente con el problema planteado y facilita la organización del sistema de manera clara y modular.
+
+## Casos que podrían hacer fallar el proyecto
+Durante el desarrollo se identificaron algunos casos que podrían provocar errores o un funcionamiento incorrecto del sistema:
+
+-Intentar agregar más jugadores de los permitidos en un equipo.
+-Intentar agregar más equipos de los permitidos en una conferencia.
+-Eliminar posiciones inexistentes dentro de arreglos.
+-Acceder a jugadores o equipos que no existen.
+-No validar correctamente índices o posiciones.
+-Sobrescribir objetos dentro de arreglos estáticos.
+-Problemas de memoria si se implementa manejo dinámico incorrectamente.
+
+Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
+
+## Conceptos de POO utilizados
+En el proyecto se aplican distintos conceptos de Programación Orientada a Objetos:
+
+-Encapsulamiento: mediante atributos privados/protegidos y métodos getters/setters.
+-Herencia: Player y Coach heredan de Person.
+-Composición: un Team contiene jugadores, entrenador y balón.
+-Agregación: una League contiene conferencias y una Conference contiene equipos.
+-Abstracción: cada clase representa una entidad del mundo real.
+
+## Diagrama de clases
+Para visualizar el diagrama de clases, da clic abajo:
+[Diagrama de clases](./Diagrama%20de%20clases.png)
+
+## Ejecución del programa
+Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
+1. Ubíquese en la carpeta donde se encuentra main.cpp junto con todos los archivos .h.
+2. Posteriormente, ejecute el siguiente comando:
+  g++ main.cpp -o programa
+  Esto genera el archivo ejecutable programa.exe.
+3. Ejecución
+   Ejecute el siguiente comando:
+   .\programa.exe
