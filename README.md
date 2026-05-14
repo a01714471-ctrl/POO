@@ -7,14 +7,14 @@ El objetivo principal del proyecto es aplicar conceptos de POO como herencia, en
 
 ## Identificación de clases
 Para resolver el problema se identificaron las siguientes clases principales.
--League administra toda la liga y las conferencias.
--Conference representa una conferencia que contiene equipos.
--EastConference y WestConference especializaciones de Conference.
--Team representa un equipo de basketball.
--Person clase base para personas dentro del sistema.
--Player representa a un jugador.
--Coach representa a un entrenador.
--Ball representa el balón utilizado por un equipo.
+1.League administra toda la liga y las conferencias.
+2.Conference representa una conferencia que contiene equipos.
+3.EastConference y WestConference especializaciones de Conference.
+4.Team representa un equipo de basketball.
+5.Person clase base para personas dentro del sistema.
+6.Player representa a un jugador.
+7.Coach representa a un entrenador.
+8.Ball representa el balón utilizado por un equipo.
 
 Estas clases fueron seleccionadas porque representan directamente los elementos necesarios para modelar una liga deportiva y permiten dividir correctamente las responsabilidades del sistema.
 
@@ -23,10 +23,7 @@ El diagrama UML representa cómo interactúan los distintos elementos de una lig
 
 La clase League contiene conferencias, ya que una liga puede estar formada por varias conferencias. A su vez, cada Conference administra distintos equipos (Team).
 
-Cada equipo cuenta con lo siguiente.
--varios jugadores
--un entrenador
--un balón.
+Cada equipo cuenta con lo siguiente, varios jugadores, un entrenador y un balón.
 
 La herencia entre Person, Player y Coach permite reutilizar atributos comunes como nombre y edad. Además, las clases EastConference y WestConference permiten especializar las conferencias dependiendo de la región.
 
@@ -34,23 +31,23 @@ Gracias a esta estructura, el diagrama UML se relaciona directamente con el prob
 
 ## Casos que podrían hacer fallar el proyecto
 Durante el desarrollo se identificaron algunos casos que podrían provocar errores o un funcionamiento incorrecto del sistema.
--Intentar agregar más jugadores de los permitidos en un equipo.
--Intentar agregar más equipos de los permitidos en una conferencia.
--Eliminar posiciones inexistentes dentro de arreglos.
--Acceder a jugadores o equipos que no existen.
--No validar correctamente índices o posiciones.
--Sobrescribir objetos dentro de arreglos estáticos.
--Problemas de memoria si se implementa manejo dinámico incorrectamente.
+1.Intentar agregar más jugadores de los permitidos en un equipo.
+2.Intentar agregar más equipos de los permitidos en una conferencia.
+3.Eliminar posiciones inexistentes dentro de arreglos.
+4.Acceder a jugadores o equipos que no existen.
+5.No validar correctamente índices o posiciones.
+6.Sobrescribir objetos dentro de arreglos estáticos.
+7.Problemas de memoria si se implementa manejo dinámico incorrectamente.
 
 Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
 
 ## Conceptos de POO utilizados
 En el proyecto se aplican distintos conceptos de Programación Orientada a Objetos.
--Encapsulamiento, mediante atributos privados/protegidos y métodos getters/setters.
--Herencia, player y Coach heredan de Person.
--Composición, un Team contiene jugadores, entrenador y balón.
--Agregación, una League contiene conferencias y una Conference contiene equipos.
--Abstracción, cada clase representa una entidad del mundo real.
+1.Encapsulamiento, mediante atributos privados/protegidos y métodos getters/setters.
+2.Herencia, player y Coach heredan de Person.
+3.Composición, un Team contiene jugadores, entrenador y balón.
+4.Agregación, una League contiene conferencias y una Conference contiene equipos.
+5.Abstracción, cada clase representa una entidad del mundo real.
 
 ## Diagrama de clases
 Para visualizar el diagrama de clases, da clic abajo:
