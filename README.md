@@ -7,7 +7,6 @@ El objetivo principal del proyecto es aplicar conceptos de POO como herencia, en
 
 ## Identificación de clases
 Para resolver el problema se identificaron las siguientes clases principales:
-
 -League: administra toda la liga y las conferencias.
 -Conference: representa una conferencia que contiene equipos.
 -EastConference y WestConference: especializaciones de Conference.
@@ -25,7 +24,6 @@ El diagrama UML representa cómo interactúan los distintos elementos de una lig
 La clase League contiene conferencias, ya que una liga puede estar formada por varias conferencias. A su vez, cada Conference administra distintos equipos (Team).
 
 Cada equipo cuenta con:
-
 -varios jugadores
 -un entrenador
 -un balón.
@@ -36,7 +34,6 @@ Gracias a esta estructura, el diagrama UML se relaciona directamente con el prob
 
 ## Casos que podrían hacer fallar el proyecto
 Durante el desarrollo se identificaron algunos casos que podrían provocar errores o un funcionamiento incorrecto del sistema:
-
 -Intentar agregar más jugadores de los permitidos en un equipo.
 -Intentar agregar más equipos de los permitidos en una conferencia.
 -Eliminar posiciones inexistentes dentro de arreglos.
@@ -49,7 +46,6 @@ Para evitar estos problemas se deben implementar validaciones en cada método qu
 
 ## Conceptos de POO utilizados
 En el proyecto se aplican distintos conceptos de Programación Orientada a Objetos:
-
 -Encapsulamiento: mediante atributos privados/protegidos y métodos getters/setters.
 -Herencia: Player y Coach heredan de Person.
 -Composición: un Team contiene jugadores, entrenador y balón.
