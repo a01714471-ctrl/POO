@@ -7,14 +7,14 @@ El objetivo principal del proyecto es aplicar conceptos de POO como herencia, en
 
 ## Identificación de clases
 Para resolver el problema se identificaron las siguientes clases principales:
--League: administra toda la liga y las conferencias.
--Conference: representa una conferencia que contiene equipos.
--EastConference y WestConference: especializaciones de Conference.
--Team: representa un equipo de basketball.
--Person: clase base para personas dentro del sistema.
--Player: representa a un jugador.
--Coach: representa a un entrenador.
--Ball: representa el balón utilizado por un equipo.
+-League administra toda la liga y las conferencias.
+-Conference representa una conferencia que contiene equipos.
+-EastConference y WestConference especializaciones de Conference.
+-Team representa un equipo de basketball.
+-Person clase base para personas dentro del sistema.
+-Player representa a un jugador.
+-Coach representa a un entrenador.
+-Ball representa el balón utilizado por un equipo.
 
 Estas clases fueron seleccionadas porque representan directamente los elementos necesarios para modelar una liga deportiva y permiten dividir correctamente las responsabilidades del sistema.
 
@@ -46,11 +46,11 @@ Para evitar estos problemas se deben implementar validaciones en cada método qu
 
 ## Conceptos de POO utilizados
 En el proyecto se aplican distintos conceptos de Programación Orientada a Objetos:
--Encapsulamiento: mediante atributos privados/protegidos y métodos getters/setters.
--Herencia: Player y Coach heredan de Person.
--Composición: un Team contiene jugadores, entrenador y balón.
--Agregación: una League contiene conferencias y una Conference contiene equipos.
--Abstracción: cada clase representa una entidad del mundo real.
+-Encapsulamiento, mediante atributos privados/protegidos y métodos getters/setters.
+-Herencia, player y Coach heredan de Person.
+-Composición, un Team contiene jugadores, entrenador y balón.
+-Agregación, una League contiene conferencias y una Conference contiene equipos.
+-Abstracción, cada clase representa una entidad del mundo real.
 
 ## Diagrama de clases
 Para visualizar el diagrama de clases, da clic abajo:
