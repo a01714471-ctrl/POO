@@ -6,19 +6,19 @@ Este proyecto consiste en el desarrollo de un sistema de gestión de una liga de
 El objetivo principal del proyecto es aplicar conceptos de POO como herencia, encapsulamiento y agregación, además de modelar correctamente un problema real mediante clases y relaciones entre objetos.
 
 ##  ¿Para qué sirve?
--Simula una liga de baloncesto con conferencias (Este y Oeste), equipos y jugadores.
--Permite crear conferencias con nombre, región y tipo (Este/Oeste).
--Permite agregar equipos con ciudad, entrenador y balón asociado.
--Permite agregar jugadores con nombre, edad, posición y número de camiseta.
--Ofrece menús interactivos para mostrar la liga completa, una conferencia o un equipo específico.
--Permite eliminar conferencias, equipos o jugadores de forma controlada.
--Incluye validaciones de entrada para evitar datos vacíos, negativos o índices inválidos.
+- Simula una liga de baloncesto con conferencias (Este y Oeste), equipos y jugadores.
+- Permite crear conferencias con nombre, región y tipo (Este/Oeste).
+- Permite agregar equipos con ciudad, entrenador y balón asociado.
+- Permite agregar jugadores con nombre, edad, posición y número de camiseta.
+- Ofrece menús interactivos para mostrar la liga completa, una conferencia o un equipo específico.
+- Permite eliminar conferencias, equipos o jugadores de forma controlada.
+- Incluye validaciones de entrada para evitar datos vacíos, negativos o índices inválidos.
 
 ##  ¿Para qué no sirve?
--No simula partidos ni calcula estadísticas deportivas.
--No guarda datos en archivos ni en bases de datos (la información se pierde al cerrar el programa).
--No tiene interfaz gráfica: funciona únicamente en consola.
--No está diseñado para uso profesional en gestión de ligas deportivas, solo como proyecto académico.
+- No simula partidos ni calcula estadísticas deportivas.
+- No guarda datos en archivos ni en bases de datos (la información se pierde al cerrar el programa).
+- No tiene interfaz gráfica: funciona únicamente en consola.
+- No está diseñado para uso profesional en gestión de ligas deportivas, solo como proyecto académico.
 
 ## Cómo se usa
 1. Compilar el proyecto con un compilador C++.  
