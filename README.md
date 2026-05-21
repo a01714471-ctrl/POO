@@ -5,6 +5,32 @@ Este proyecto consiste en el desarrollo de un sistema de gestión de una liga de
 
 El objetivo principal del proyecto es aplicar conceptos de POO como herencia, encapsulamiento y agregación, además de modelar correctamente un problema real mediante clases y relaciones entre objetos.
 
+##  ¿Para qué sirve?
+-Simula una liga de baloncesto con conferencias (Este y Oeste), equipos y jugadores.
+-Permite crear conferencias con nombre, región y tipo (Este/Oeste).
+-Permite agregar equipos con ciudad, entrenador y balón asociado.
+-Permite agregar jugadores con nombre, edad, posición y número de camiseta.
+-Ofrece menús interactivos para mostrar la liga completa, una conferencia o un equipo específico.
+-Permite eliminar conferencias, equipos o jugadores de forma controlada.
+-Incluye validaciones de entrada para evitar datos vacíos, negativos o índices inválidos.
+
+##  ¿Para qué no sirve?
+-No simula partidos ni calcula estadísticas deportivas.
+-No guarda datos en archivos ni en bases de datos (la información se pierde al cerrar el programa).
+-No tiene interfaz gráfica: funciona únicamente en consola.
+-No está diseñado para uso profesional en gestión de ligas deportivas, solo como proyecto académico.
+
+## Cómo se usa
+1. Compilar el proyecto con un compilador C++.  
+2. Ejecutar el programa.  
+3. Usar el menú principal para:
+   - Agregar conferencias (máximo 2).  
+   - Agregar equipos a una conferencia (máximo 15 por conferencia).  
+   - Agregar jugadores a un equipo (máximo 10 por equipo).  
+   - Mostrar información de la liga, conferencias o equipos.  
+   - Eliminar conferencias, equipos o jugadores según sea necesario.  
+4. Salir con la opción 9.
+
 ## Identificación de clases
 Para resolver el problema se identificaron las siguientes clases principales:
 1. League administra toda la liga y las conferencias.
@@ -40,6 +66,16 @@ Durante el desarrollo se identificaron algunos casos que podrían provocar error
 7. Problemas de memoria si se implementa manejo dinámico incorrectamente.
 
 Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
+
+## Ejecución del programa
+Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
+1. Ubíquese en la carpeta donde se encuentra main.cpp junto con todos los archivos .h.
+2. Posteriormente, ejecute el siguiente comando:
+  g++ main.cpp -o programa
+  Esto genera el archivo ejecutable programa.exe.
+3. Ejecución
+   Ejecute el siguiente comando:
+   .\programa.exe
 
 ## Diagrama de clases
 Para visualizar el diagrama de clases, da clic aquí:
