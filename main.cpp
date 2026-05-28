@@ -10,7 +10,7 @@ using namespace std;
 
 int main() {
     // Se crea una liga llamada "NBA" del año 2025
-    League liga("NBA", 2025);
+    League liga("NBA", 2026);
 
     // Control del menú principal; se repetirá hasta ser 9 (Salir)
     int opcion = 0;
@@ -435,3 +435,4 @@ int main() {
     // Terminación normal del programa
     return 0;
 } // Fin de main()
+

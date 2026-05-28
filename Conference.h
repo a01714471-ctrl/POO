@@ -11,7 +11,7 @@ class Conference {
 protected:
     string nombre;
     string region;
-    Team equipos[15];
+    Team* equipos[15];   // ahora punteros a Team en heap
     int cantidadEquipos;
 public:
     Conference();                   // Constructor por defecto
@@ -85,6 +85,7 @@ Conference::Conference() {
     nombre = "Sin nombre";   // Nombre por defecto
     region = "Sin region";   // Región por defecto
     cantidadEquipos = 0;     // No hay equipos al inicio
+    for (int i = 0; i < 15; ++i) equipos[i] = nullptr;
 }
 
 /**
@@ -108,6 +109,7 @@ Conference::Conference(string n, string r) {
     }
 
     cantidadEquipos = 0;     // Al inicio no hay equipos
+    for (int i = 0; i < 15; ++i) equipos[i] = nullptr;
 }
 
 /**
@@ -166,7 +168,8 @@ void Conference::setRegion(string r) {
  */
 void Conference::agregarEquipo(Team t) {
     if (cantidadEquipos < 15) { // Máximo 15 equipos
-        equipos[cantidadEquipos] = t; // Se guarda en el arreglo
+        // crear copia en heap y almacenar puntero
+        equipos[cantidadEquipos] = new Team(t);
         cantidadEquipos++;            // Se incrementa el contador
         cout << "Equipo agregado correctamente." << endl;
     } else {
@@ -183,10 +186,14 @@ void Conference::agregarEquipo(Team t) {
  */
 void Conference::eliminarEquipo(int posicionEquipo) {
     if (posicionEquipo >= 0 && posicionEquipo < cantidadEquipos) {
+        // liberar memoria del equipo eliminado
+        delete equipos[posicionEquipo];
+        equipos[posicionEquipo] = nullptr;
         // Se recorre el arreglo para compactar
         for (int i = posicionEquipo; i < cantidadEquipos - 1; i++) {
             equipos[i] = equipos[i + 1];
         }
+        equipos[cantidadEquipos - 1] = nullptr;
         cantidadEquipos--; // Se reduce el contador
         cout << "Equipo eliminado correctamente." << endl;
     } else {
@@ -202,7 +209,11 @@ void Conference::eliminarEquipo(int posicionEquipo) {
  */
 Team Conference::getEquipo(int posicionEquipo) {
     if (posicionEquipo >= 0 && posicionEquipo < cantidadEquipos) {
-        return equipos[posicionEquipo]; // Devuelve equipo válido
+        if (equipos[posicionEquipo] != nullptr) {
+            return *equipos[posicionEquipo]; // devuelve copia por valor
+        } else {
+            return Team();
+        }
     } else {
         cout << "Posicion invalida. Se devuelve un equipo vacio."
              << endl;
@@ -230,7 +241,11 @@ int Conference::getCantidadEquipos() {
 void Conference::agregarJugadorEnEquipo(int posicionEquipo,
                                         Player jugador) {
     if (posicionEquipo >= 0 && posicionEquipo < cantidadEquipos) {
-        equipos[posicionEquipo].agregarJugador(jugador);
+        if (equipos[posicionEquipo] != nullptr) {
+            equipos[posicionEquipo]->agregarJugador(jugador);
+        } else {
+            cout << "Equipo nulo. No se agrego el jugador." << endl;
+        }
     } else {
         cout << "Posicion de equipo invalida. "
              << "No se agrego el jugador." << endl;
@@ -247,7 +262,11 @@ void Conference::agregarJugadorEnEquipo(int posicionEquipo,
 void Conference::eliminarJugadorEnEquipo(int posicionEquipo,
                                          int posicionJugador) {
     if (posicionEquipo >= 0 && posicionEquipo < cantidadEquipos) {
-        equipos[posicionEquipo].eliminarJugador(posicionJugador);
+        if (equipos[posicionEquipo] != nullptr) {
+            equipos[posicionEquipo]->eliminarJugador(posicionJugador);
+        } else {
+            cout << "Equipo nulo. No se elimino el jugador." << endl;
+        }
     } else {
         cout << "Posicion de equipo invalida. "
              << "No se elimino el jugador." << endl;
@@ -269,7 +288,9 @@ string Conference::toString() {
         info += "Equipos:\n";
         // Recorre todos los equipos y concatena su información
         for (int i = 0; i < cantidadEquipos; i++) {
-            info += equipos[i].toString() + "\n";
+            if (equipos[i] != nullptr) {
+                info += equipos[i]->toString() + "\n";
+            }
         }
     }
     return info; // Devuelve la información completa de la conferencia
@@ -412,3 +433,4 @@ void WestConference::setMaxEquipos(int m) {
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo
+

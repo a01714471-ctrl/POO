@@ -12,7 +12,7 @@ class League {
 private:
     string nombreLiga;
     int anio;
-    Conference conferencias[2];
+    Conference* conferencias[2]; // ahora punteros a Conference en heap
     int cantidadConferencias;
 
 public:
@@ -54,6 +54,7 @@ League::League() {
     nombreLiga = "Sin nombre";
     anio = 0;
     cantidadConferencias = 0;
+    for (int i = 0; i < 2; ++i) conferencias[i] = nullptr;
 }
 
 /**
@@ -77,6 +78,7 @@ League::League(string nombre, int a) {
     }
 
     cantidadConferencias = 0;
+    for (int i = 0; i < 2; ++i) conferencias[i] = nullptr;
 }
 
 /**
@@ -135,7 +137,8 @@ void League::setAnio(int a) {
  */
 void League::agregarConferencia(Conference c) {
     if (cantidadConferencias < 2) {
-        conferencias[cantidadConferencias] = c;
+        // crear copia en heap y almacenar puntero
+        conferencias[cantidadConferencias] = new Conference(c);
         cantidadConferencias++;
         cout << "Conferencia agregada correctamente." << endl;
     } else {
@@ -153,10 +156,14 @@ void League::agregarConferencia(Conference c) {
 void League::eliminarConferencia(int posicionConferencia) {
     if (posicionConferencia >= 0 &&
         posicionConferencia < cantidadConferencias) {
+        // liberar memoria de la conferencia eliminada
+        delete conferencias[posicionConferencia];
+        conferencias[posicionConferencia] = nullptr;
         for (int i = posicionConferencia;
              i < cantidadConferencias - 1; i++) {
             conferencias[i] = conferencias[i + 1];
         }
+        conferencias[cantidadConferencias - 1] = nullptr;
         cantidadConferencias--;
         cout << "Conferencia eliminada correctamente." << endl;
     } else {
@@ -174,7 +181,11 @@ void League::eliminarConferencia(int posicionConferencia) {
 Conference League::getConferencia(int posicionConferencia) {
     if (posicionConferencia >= 0 &&
         posicionConferencia < cantidadConferencias) {
-        return conferencias[posicionConferencia];
+        if (conferencias[posicionConferencia] != nullptr) {
+            return *conferencias[posicionConferencia]; // copia por valor
+        } else {
+            return Conference();
+        }
     } else {
         cout << "Posicion invalida. Se devuelve una conferencia vacia."
              << endl;
@@ -201,7 +212,11 @@ int League::getCantidadConferencias() {
  */
 void League::agregarEquipoEnConferencia(int posicionConf, Team equipo) {
     if (posicionConf >= 0 && posicionConf < cantidadConferencias) {
-        conferencias[posicionConf].agregarEquipo(equipo);
+        if (conferencias[posicionConf] != nullptr) {
+            conferencias[posicionConf]->agregarEquipo(equipo);
+        } else {
+            cout << "Conferencia nula. No se agrego el equipo." << endl;
+        }
     } else {
         cout << "Posicion de conferencia invalida. "
              << "No se agrego el equipo." << endl;
@@ -218,7 +233,11 @@ void League::agregarEquipoEnConferencia(int posicionConf, Team equipo) {
 void League::eliminarEquipoEnConferencia(int posicionConf,
                                          int posicionEquipo) {
     if (posicionConf >= 0 && posicionConf < cantidadConferencias) {
-        conferencias[posicionConf].eliminarEquipo(posicionEquipo);
+        if (conferencias[posicionConf] != nullptr) {
+            conferencias[posicionConf]->eliminarEquipo(posicionEquipo);
+        } else {
+            cout << "Conferencia nula. No se elimino el equipo." << endl;
+        }
     } else {
         cout << "Posicion de conferencia invalida. "
              << "No se elimino el equipo." << endl;
@@ -237,8 +256,12 @@ void League::agregarJugadorEnEquipo(int posicionConf,
                                     int posicionEquipo,
                                     Player jugador) {
     if (posicionConf >= 0 && posicionConf < cantidadConferencias) {
-        conferencias[posicionConf].agregarJugadorEnEquipo(posicionEquipo,
-                                                          jugador);
+        if (conferencias[posicionConf] != nullptr) {
+            conferencias[posicionConf]->agregarJugadorEnEquipo(posicionEquipo,
+                                                              jugador);
+        } else {
+            cout << "Conferencia nula. No se agrego el jugador." << endl;
+        }
     } else {
         cout << "Posicion de conferencia invalida. "
              << "No se agrego el jugador." << endl;
@@ -257,8 +280,12 @@ void League::eliminarJugadorEnEquipo(int posicionConf,
                                      int posicionEquipo,
                                      int posicionJugador) {
     if (posicionConf >= 0 && posicionConf < cantidadConferencias) {
-        conferencias[posicionConf].eliminarJugadorEnEquipo(posicionEquipo,
-                                                           posicionJugador);
+        if (conferencias[posicionConf] != nullptr) {
+            conferencias[posicionConf]->eliminarJugadorEnEquipo(posicionEquipo,
+                                                               posicionJugador);
+        } else {
+            cout << "Conferencia nula. No se elimino el jugador." << endl;
+        }
     } else {
         cout << "Posicion de conferencia invalida. "
              << "No se elimino el jugador." << endl;
@@ -279,7 +306,9 @@ string League::toString() {
     } else {
         info += "Conferencias:\n";
         for (int i = 0; i < cantidadConferencias; i++) {
-            info += conferencias[i].toString() + "\n";
+            if (conferencias[i] != nullptr) {
+                info += conferencias[i]->toString() + "\n";
+            }
         }
     }
     return info;

@@ -12,10 +12,10 @@ class Team {
 private:
     string nombreEquipo;
     string ciudad;
-    Player jugadores[10];
+    Player* jugadores[10];    // ahora punteros a Player en heap
     int cantidadJugadores;
-    Coach coach;
-    Ball balon;
+    Coach* coach;             // puntero a Coach en heap
+    Ball* balon;              // puntero a Ball en heap
 public:
     Team();
     Team(string n, string c, Coach co, Ball b);
@@ -46,6 +46,10 @@ Team::Team() {
     nombreEquipo = "Sin nombre";   // Nombre por defecto
     ciudad = "Sin ciudad";         // Ciudad por defecto
     cantidadJugadores = 0;         // No hay jugadores al inicio
+    // inicializar punteros a nullptr
+    for (int i = 0; i < 10; ++i) jugadores[i] = nullptr;
+    coach = nullptr;
+    balon = nullptr;
 }
 
 /**
@@ -71,9 +75,11 @@ Team::Team(string n, string c, Coach co, Ball b) {
         ciudad = "Sin ciudad";     // Valor por defecto
     }
 
-    coach = co;                    // Se asigna el entrenador
-    balon = b;                     // Se asigna el balón
+    // crear copias en heap de coach y balon
+    coach = new Coach(co);
+    balon = new Ball(b);
     cantidadJugadores = 0;         // Al inicio no hay jugadores
+    for (int i = 0; i < 10; ++i) jugadores[i] = nullptr;
 }
 
 /**
@@ -137,7 +143,8 @@ void Team::setCiudad(string c) {
 // Agregar un jugador al equipo
 void Team::agregarJugador(Player p) {
     if (cantidadJugadores < 10) { // Máximo 10 jugadores
-        jugadores[cantidadJugadores] = p; // Se guarda en el arreglo
+        // crear copia en heap y almacenar puntero
+        jugadores[cantidadJugadores] = new Player(p);
         cantidadJugadores++;              // Se incrementa el contador
     } else {
         cout << "No se pueden agregar mas jugadores. "
@@ -154,10 +161,14 @@ void Team::agregarJugador(Player p) {
 // Eliminar un jugador por posición
 void Team::eliminarJugador(int posicionJugador) {
     if (posicionJugador >= 0 && posicionJugador < cantidadJugadores) {
+        // liberar memoria del jugador eliminado
+        delete jugadores[posicionJugador];
+        jugadores[posicionJugador] = nullptr;
         // Se recorre el arreglo para compactar los jugadores
         for (int i = posicionJugador; i < cantidadJugadores - 1; i++) {
             jugadores[i] = jugadores[i + 1];
         }
+        jugadores[cantidadJugadores - 1] = nullptr;
         cantidadJugadores--; // Se reduce el contador
         cout << "Jugador eliminado correctamente." << endl;
     } else {
@@ -184,7 +195,12 @@ int Team::getCantidadJugadores() {
  */
 // Setter del entrenador
 void Team::setCoach(Coach c) {
-    coach = c;
+    // liberar coach anterior si existe
+    if (coach != nullptr) {
+        delete coach;
+        coach = nullptr;
+    }
+    coach = new Coach(c);
 }
 
 /**
@@ -195,7 +211,11 @@ void Team::setCoach(Coach c) {
  */
 // Getter del entrenador
 Coach Team::getCoach() {
-    return coach;
+    if (coach != nullptr) {
+        return *coach; // devuelve copia por valor
+    } else {
+        return Coach();
+    }
 }
 
 /**
@@ -206,7 +226,11 @@ Coach Team::getCoach() {
  */
 // Setter del balón
 void Team::setBalon(Ball b) {
-    balon = b;
+    if (balon != nullptr) {
+        delete balon;
+        balon = nullptr;
+    }
+    balon = new Ball(b);
 }
 
 /**
@@ -217,7 +241,11 @@ void Team::setBalon(Ball b) {
  */
 // Getter del balón
 Ball Team::getBalon() {
-    return balon;
+    if (balon != nullptr) {
+        return *balon; // devuelve copia por valor
+    } else {
+        return Ball();
+    }
 }
 
 /**
@@ -233,10 +261,18 @@ string Team::toString() {
                   " Ciudad: " + ciudad + "\n";
 
     // Información del entrenador
-    info += "Entrenador: " + coach.toString() + "\n";
+    if (coach != nullptr) {
+        info += "Entrenador: " + coach->toString() + "\n";
+    } else {
+        info += "Entrenador: (sin entrenador)\n";
+    }
 
     // Información del balón
-    info += balon.toString() + "\n";
+    if (balon != nullptr) {
+        info += balon->toString() + "\n";
+    } else {
+        info += "Balon: (sin balon)\n";
+    }
 
     // Información de jugadores
     if (cantidadJugadores == 0) {
@@ -245,10 +281,13 @@ string Team::toString() {
         info += "Jugadores:\n";
         // Se recorre el arreglo de jugadores y se concatena su información
         for (int i = 0; i < cantidadJugadores; i++) {
-            info += " - " + jugadores[i].toString() + "\n";
+            if (jugadores[i] != nullptr) {
+                info += " - " + jugadores[i]->toString() + "\n";
+            }
         }
     }
     return info; // Devuelve la información completa del equipo
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo
+

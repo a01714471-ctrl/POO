@@ -19,7 +19,7 @@ public:
     void setNombre(string n);
     int getEdad();
     void setEdad(int e);
-    string toString();
+    virtual string toString(); // ahora virtual para permitir polimorfismo
 };
 
 // Clase Player
@@ -35,7 +35,7 @@ public:
     void setPosicion(string p);
     int getNumero();
     void setNumero(int n);
-    string toString();
+    string toString() override;
 };
 
 // Clase Coach
@@ -51,7 +51,7 @@ public:
     void setAniosExperiencia(int a);
     string getEspecialidad();
     void setEspecialidad(string s);
-    string toString();
+    string toString() override;
 };
 
 // IMPLEMENTACIÓN DE MÉTODOS
@@ -341,3 +341,4 @@ string Coach::toString() {
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo
+
