@@ -63,7 +63,7 @@ Durante el desarrollo se identificaron algunos casos que podrían provocar error
 4. Acceder a jugadores o equipos que no existen.
 5. No validar correctamente índices o posiciones.
 6. Sobrescribir objetos dentro de arreglos estáticos.
-7. Problemas de memoria si se implementa manejo dinámico incorrectamente.
+7. Problemas de memoria si se implementa el manejo dinámico incorrectamente.
 
 Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
 
@@ -72,7 +72,7 @@ En C++ el polimorfismo se logra gracias a los métodos virtuales. Cuando una cla
 
 Para indicar explícitamente que un método en una clase derivada sobrescribe un método virtual de la clase base, se usa la palabra clave override.
 
-## ¿Por qué lo usas en mi proyecto?
+## ¿Por qué lo uso en mi proyecto?
 Claridad y seguridad: override deja claro que el método redefine uno virtual de la clase base.
 
 Evita errores: si cambias la firma en la clase derivada por accidente, el compilador lo detecta.
