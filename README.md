@@ -67,6 +67,20 @@ Durante el desarrollo se identificaron algunos casos que podrían provocar error
 
 Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
 
+## Explicación detallada de override
+En C++ el polimorfismo se logra gracias a los métodos virtuales. Cuando una clase base declara un método como virtual, las clases derivadas pueden sobrescribir ese método para dar una implementación específica.
+
+Para indicar explícitamente que un método en una clase derivada sobrescribe un método virtual de la clase base, se usa la palabra clave override.
+
+## ¿Por qué lo usas en mi proyecto?
+Claridad y seguridad: override deja claro que el método redefine uno virtual de la clase base.
+
+Evita errores: si cambias la firma en la clase derivada por accidente, el compilador lo detecta.
+
+Polimorfismo real: gracias a override, cuando trabajas con punteros a la clase base (Person*, Ball*), las llamadas se dirigen a la implementación correcta en la clase derivada (Player, Coach, BasketballBall, etc.).
+
+Consistencia: en tu proyecto, toString() y rebotar() son los métodos que cambian según el tipo de objeto. Usar override garantiza que cada clase derivada muestre su información específica al invocarse desde un puntero base.
+
 ## Ejecución del programa
 Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
 1. Ubíquese en la carpeta donde se encuentra main.cpp junto con todos los archivos .h.
