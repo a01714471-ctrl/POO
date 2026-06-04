@@ -12,18 +12,20 @@ class Team {
 private:
     string nombreEquipo;
     string ciudad;
-    Player* jugadores[10];    // ahora punteros a Player en heap
+    Person* jugadores[10];    // punteros a Person en heap (polimorfismo)
     int cantidadJugadores;
     Coach* coach;             // puntero a Coach en heap
     Ball* balon;              // puntero a Ball en heap
+
 public:
     Team();
     Team(string n, string c, Coach co, Ball b);
+
     string getNombreEquipo();
     void setNombreEquipo(string n);
     string getCiudad();
     void setCiudad(string c);
-    void agregarJugador(Player p);
+    void agregarJugador(const Person& p); // recibe Person por referencia
     void eliminarJugador(int posicionJugador);
     int getCantidadJugadores();
     void setCoach(Coach c);
@@ -31,6 +33,10 @@ public:
     void setBalon(Ball b);
     Ball getBalon();
     string toString();
+
+    // Método público para liberar recursos internos antes de borrar el objeto
+    // (se usa en Conference/League antes de delete)
+    void liberarRecursos();
 };
 
 // IMPLEMENTACIÓN DE MÉTODOS
@@ -80,6 +86,28 @@ Team::Team(string n, string c, Coach co, Ball b) {
     balon = new Ball(b);
     cantidadJugadores = 0;         // Al inicio no hay jugadores
     for (int i = 0; i < 10; ++i) jugadores[i] = nullptr;
+}
+
+/**
+ * Método para liberar recursos internos (jugadores, coach, balon)
+ * Debe llamarse antes de borrar el objeto con delete si se usó new.
+ */
+void Team::liberarRecursos() {
+    for (int i = 0; i < cantidadJugadores; ++i) {
+        if (jugadores[i] != nullptr) {
+            delete jugadores[i];
+            jugadores[i] = nullptr;
+        }
+    }
+    cantidadJugadores = 0;
+    if (coach != nullptr) {
+        delete coach;
+        coach = nullptr;
+    }
+    if (balon != nullptr) {
+        delete balon;
+        balon = nullptr;
+    }
 }
 
 /**
@@ -137,14 +165,14 @@ void Team::setCiudad(string c) {
 /**
  * Agrega un jugador al equipo
  *
- * @param p Objeto Player a agregar
+ * @param p Objeto Person (Player o derivado) a agregar
  * @return
  */
-// Agregar un jugador al equipo
-void Team::agregarJugador(Player p) {
+// Agregar un jugador al equipo (usa clone() para preservar tipo dinámico)
+void Team::agregarJugador(const Person& p) {
     if (cantidadJugadores < 10) { // Máximo 10 jugadores
-        // crear copia en heap y almacenar puntero
-        jugadores[cantidadJugadores] = new Player(p);
+        // crear copia polimórfica en heap y almacenar puntero
+        jugadores[cantidadJugadores] = p.clone();
         cantidadJugadores++;              // Se incrementa el contador
     } else {
         cout << "No se pueden agregar mas jugadores. "
@@ -162,8 +190,10 @@ void Team::agregarJugador(Player p) {
 void Team::eliminarJugador(int posicionJugador) {
     if (posicionJugador >= 0 && posicionJugador < cantidadJugadores) {
         // liberar memoria del jugador eliminado
-        delete jugadores[posicionJugador];
-        jugadores[posicionJugador] = nullptr;
+        if (jugadores[posicionJugador] != nullptr) {
+            delete jugadores[posicionJugador];
+            jugadores[posicionJugador] = nullptr;
+        }
         // Se recorre el arreglo para compactar los jugadores
         for (int i = posicionJugador; i < cantidadJugadores - 1; i++) {
             jugadores[i] = jugadores[i + 1];
@@ -290,5 +320,4 @@ string Team::toString() {
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo
-
 

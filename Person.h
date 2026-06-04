@@ -20,6 +20,9 @@ public:
     int getEdad();
     void setEdad(int e);
     virtual string toString() = 0; // ahora abstracta para forzar override
+
+    // Crea una copia del objeto en memoria dinámica (heap)
+    virtual Person* clone() const = 0;
 };
 
 // Clase Player
@@ -36,6 +39,7 @@ public:
     int getNumero();
     void setNumero(int n);
     string toString() override;
+    Person* clone() const override; // implementación de clonación
 };
 
 // Clase Coach
@@ -52,6 +56,19 @@ public:
     string getEspecialidad();
     void setEspecialidad(string s);
     string toString() override;
+    Person* clone() const override; // implementación de clonación
+};
+
+// Clase StarPlayer (nueva)
+// Subclase de Player para demostrar polimorfismo entre tipos de jugadores
+class StarPlayer : public Player {
+private:
+    string apodo;
+public:
+    StarPlayer();
+    StarPlayer(string n, int e, string pos, int num, string ap);
+    string toString() override;
+    Person* clone() const override;
 };
 
 // IMPLEMENTACIÓN DE MÉTODOS
@@ -244,6 +261,13 @@ string Player::toString() {
            " Numero: " + to_string(numero);
 }
 
+/**
+ * Implementación de clonación para Player
+ */
+Person* Player::clone() const {
+    return new Player(*this);
+}
+
 // Coach
 
 /**
@@ -341,4 +365,44 @@ string Coach::toString() {
            " anios, Especialidad: " + especialidad;
 }
 
+/**
+ * Implementación de clonación para Coach
+ */
+Person* Coach::clone() const {
+    return new Coach(*this);
+}
+
+// StarPlayer (nueva clase)
+
+/**
+ * Constructor por defecto
+ */
+StarPlayer::StarPlayer() : Player() {
+    apodo = "La Estrella";
+}
+
+/**
+ * Constructor con parámetros
+ */
+StarPlayer::StarPlayer(string n, int e, string pos, int num, string ap)
+    : Player(n, e, pos, num) {
+    if (ap != "") apodo = ap;
+    else apodo = "La Estrella";
+}
+
+/**
+ * toString sobrescrito para StarPlayer
+ */
+string StarPlayer::toString() {
+    return Player::toString() + " Apodo: " + apodo + " (Jugador Estrella)";
+}
+
+/**
+ * clone para StarPlayer
+ */
+Person* StarPlayer::clone() const {
+    return new StarPlayer(*this);
+}
+
 #endif // Cierra la protección contra múltiples inclusiones del archivo
+

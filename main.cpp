@@ -1,4 +1,4 @@
-// Librería estándar para entrada/salida (cin, cout)
+// Librería estándar para entrada_salida (cin, cout)
 #include <iostream>
 // Librería para hacer uso de strings
 #include <string>
@@ -223,9 +223,27 @@ int main() {
                         cin >> numero;
                     }
 
-                    // Se crea el objeto Player con los datos y se agrega al equipo
-                    Player jugador(nombre, edad, posicion, numero);
-                    liga.agregarJugadorEnEquipo(posConf, posEquipo, jugador);
+                    // Preguntar si es jugador estrella (para demostrar polimorfismo)
+                    int tipoJugador = 1;
+                    cout << "Tipo de jugador (1 = Normal, 2 = Estrella): ";
+                    cin >> tipoJugador;
+                    while (tipoJugador != 1 && tipoJugador != 2) {
+                        cout << "Opcion invalida. Introduce 1 (Normal) o 2 (Estrella): ";
+                        cin >> tipoJugador;
+                    }
+
+                    if (tipoJugador == 1) {
+                        // Se crea el objeto Player con los datos y se agrega al equipo
+                        Player jugador(nombre, edad, posicion, numero);
+                        liga.agregarJugadorEnEquipo(posConf, posEquipo, jugador);
+                    } else {
+                        // Crear StarPlayer (subclase de Player) para demostrar polimorfismo
+                        string apodo;
+                        cout << "Introduce un apodo para el jugador estrella: ";
+                        cin >> apodo;
+                        StarPlayer jugadorE(nombre, edad, posicion, numero, apodo);
+                        liga.agregarJugadorEnEquipo(posConf, posEquipo, jugadorE);
+                    }
                 }
             }
         }

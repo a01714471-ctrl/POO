@@ -3,7 +3,7 @@
 #ifndef LEAGUE_H
 #define LEAGUE_H
 
-// Incluye la clase Conference, necesaria en League
+// Incluye la clase Conference y sus dependencias
 #include "Conference.h"
 
 // Clase League
@@ -12,7 +12,7 @@ class League {
 private:
     string nombreLiga;
     int anio;
-    Conference* conferencias[2]; // ahora punteros a Conference en heap
+    Conference* conferencias[2]; // punteros a Conference en heap
     int cantidadConferencias;
 
 public:
@@ -34,7 +34,7 @@ public:
 
     void agregarJugadorEnEquipo(int posicionConf,
                                 int posicionEquipo,
-                                Player jugador);
+                                const Person& jugador); // recibe Person por referencia
     void eliminarJugadorEnEquipo(int posicionConf,
                                  int posicionEquipo,
                                  int posicionJugador);
@@ -155,9 +155,12 @@ void League::agregarConferencia(Conference* c) {
 void League::eliminarConferencia(int posicionConferencia) {
     if (posicionConferencia >= 0 &&
         posicionConferencia < cantidadConferencias) {
-        // liberar memoria de la conferencia eliminada
-        delete conferencias[posicionConferencia];
-        conferencias[posicionConferencia] = nullptr;
+        // liberar recursos internos de la conferencia antes de borrar
+        if (conferencias[posicionConferencia] != nullptr) {
+            conferencias[posicionConferencia]->liberarRecursos();
+            delete conferencias[posicionConferencia];
+            conferencias[posicionConferencia] = nullptr;
+        }
         for (int i = posicionConferencia;
              i < cantidadConferencias - 1; i++) {
             conferencias[i] = conferencias[i + 1];
@@ -243,12 +246,12 @@ void League::eliminarEquipoEnConferencia(int posicionConf,
  *
  * @param posicionConf Índice de la conferencia
  * @param posicionEquipo Índice del equipo
- * @param jugador Objeto Player a agregar
+ * @param jugador Objeto Person (Player o derivado) a agregar
  * @return
  */
 void League::agregarJugadorEnEquipo(int posicionConf,
                                     int posicionEquipo,
-                                    Player jugador) {
+                                    const Person& jugador) {
     if (posicionConf >= 0 && posicionConf < cantidadConferencias) {
         if (conferencias[posicionConf] != nullptr) {
             conferencias[posicionConf]->agregarJugadorEnEquipo(posicionEquipo,

@@ -11,7 +11,7 @@ class Conference {
 protected:
     string nombre;
     string region;
-    Team* equipos[15];   // ahora punteros a Team en heap
+    Team* equipos[15];   // punteros a Team en heap
     int cantidadEquipos;
 public:
     Conference();                   // Constructor por defecto
@@ -32,46 +32,15 @@ public:
 
     // Métodos para manejar jugadores dentro de equipos
     void agregarJugadorEnEquipo(int posicionEquipo,
-                                Player jugador);
+                                const Person& jugador); // recibe Person por referencia
     void eliminarJugadorEnEquipo(int posicionEquipo,
                                  int posicionJugador);
 
     // Método para mostrar información completa de la conferencia
     virtual string toString() = 0; // ahora abstracta para forzar override
-};
 
-// Clase EastConference
-// Especialización de Conference para la conferencia del Este
-class EastConference : public Conference {
-private:
-    int idConferencia;
-    int maxEquipos;
-public:
-    EastConference();    // Constructor por defecto
-    EastConference(string n, string r, int id,
-                   int max); // Constructor con parámetros
-    int getIdConferencia();
-    void setIdConferencia(int id);
-    int getMaxEquipos();
-    void setMaxEquipos(int m);
-    string toString() override; // override
-};
-
-// Clase WestConference
-// Especialización de Conference para la conferencia del Oeste
-class WestConference : public Conference {
-private:
-    int idConferencia;
-    int maxEquipos;
-public:
-    WestConference();    // Constructor por defecto
-    WestConference(string n, string r, int id,
-                   int max); // Constructor con parámetros
-    int getIdConferencia();
-    void setIdConferencia(int id);
-    int getMaxEquipos();
-    void setMaxEquipos(int m);
-    string toString() override; // override
+    // Método público para liberar recursos internos antes de borrar la conferencia
+    void liberarRecursos();
 };
 
 // IMPLEMENTACIÓN DE MÉTODOS
@@ -112,6 +81,22 @@ Conference::Conference(string n, string r) {
 
     cantidadEquipos = 0;     // Al inicio no hay equipos
     for (int i = 0; i < 15; ++i) equipos[i] = nullptr;
+}
+
+/**
+ * Método para liberar recursos internos (equipos)
+ * Debe llamarse antes de borrar la conferencia con delete si se usó new.
+ */
+void Conference::liberarRecursos() {
+    for (int i = 0; i < cantidadEquipos; ++i) {
+        if (equipos[i] != nullptr) {
+            // liberar recursos internos del equipo antes de borrarlo
+            equipos[i]->liberarRecursos();
+            delete equipos[i];
+            equipos[i] = nullptr;
+        }
+    }
+    cantidadEquipos = 0;
 }
 
 /**
@@ -188,9 +173,12 @@ void Conference::agregarEquipo(Team t) {
  */
 void Conference::eliminarEquipo(int posicionEquipo) {
     if (posicionEquipo >= 0 && posicionEquipo < cantidadEquipos) {
-        // liberar memoria del equipo eliminado
-        delete equipos[posicionEquipo];
-        equipos[posicionEquipo] = nullptr;
+        // liberar recursos internos del equipo y borrar
+        if (equipos[posicionEquipo] != nullptr) {
+            equipos[posicionEquipo]->liberarRecursos();
+            delete equipos[posicionEquipo];
+            equipos[posicionEquipo] = nullptr;
+        }
         // Se recorre el arreglo para compactar
         for (int i = posicionEquipo; i < cantidadEquipos - 1; i++) {
             equipos[i] = equipos[i + 1];
@@ -237,11 +225,11 @@ int Conference::getCantidadEquipos() {
  * Agrega un jugador dentro de un equipo
  *
  * @param posicionEquipo Índice del equipo
- * @param jugador Objeto Player a agregar
+ * @param jugador Objeto Person (Player o derivado) a agregar
  * @return
  */
 void Conference::agregarJugadorEnEquipo(int posicionEquipo,
-                                        Player jugador) {
+                                        const Person& jugador) {
     if (posicionEquipo >= 0 && posicionEquipo < cantidadEquipos) {
         if (equipos[posicionEquipo] != nullptr) {
             equipos[posicionEquipo]->agregarJugador(jugador);
@@ -291,9 +279,7 @@ string Conference::toString() {
         info += "Equipos:\n";
         // Recorre todos los equipos y concatena su información
         for (int i = 0; i < cantidadEquipos; i++) {
-            if (equipos[i] != nullptr) {
-                info += equipos[i]->toString() + "\n";
-            }
+            info += equipos[i]->toString() + "\n";
         }
     }
     return info; // Devuelve la información completa de la conferencia
@@ -307,20 +293,25 @@ string Conference::toString() {
  * @param
  * @return Objeto EastConference con ID 0 y máximo 15 equipos
  */
+class EastConference : public Conference {
+private:
+    int idConferencia;
+    int maxEquipos;
+public:
+    EastConference();
+    EastConference(string n, string r, int id, int max);
+    int getIdConferencia();
+    void setIdConferencia(int id);
+    int getMaxEquipos();
+    void setMaxEquipos(int m);
+    string toString() override;
+};
+
 EastConference::EastConference() : Conference() {
     idConferencia = 0;   // ID por defecto
     maxEquipos = 15;     // Máximo por defecto
 }
 
-/**
- * Constructor con parámetros
- *
- * @param n Nombre de la conferencia
- * @param r Región de la conferencia
- * @param id Identificador único
- * @param max Máximo de equipos permitidos
- * @return Objeto EastConference inicializado con valores dados
- */
 EastConference::EastConference(string n, string r, int id, int max)
     : Conference(n, r) {
     if (id >= 0) {
@@ -335,22 +326,10 @@ EastConference::EastConference(string n, string r, int id, int max)
     }
 }
 
-/**
- * Devuelve el ID de la conferencia
- *
- * @param
- * @return ID de la conferencia
- */
 int EastConference::getIdConferencia() {
     return idConferencia;
 }
 
-/**
- * Establece el ID de la conferencia con validación
- *
- * @param id Identificador único
- * @return
- */
 void EastConference::setIdConferencia(int id) {
     if (id >= 0) {
         idConferencia = id;
@@ -359,22 +338,10 @@ void EastConference::setIdConferencia(int id) {
     }
 }
 
-/**
- * Devuelve el máximo de equipos permitidos
- *
- * @param
- * @return Máximo de equipos
- */
 int EastConference::getMaxEquipos() {
     return maxEquipos;
 }
 
-/**
- * Establece el máximo de equipos permitidos con validación
- *
- * @param m Máximo de equipos
- * @return
- */
 void EastConference::setMaxEquipos(int m) {
     if (m > 0) {
         maxEquipos = m;
@@ -383,42 +350,32 @@ void EastConference::setMaxEquipos(int m) {
     }
 }
 
-/**
- * Devuelve la representación en string de EastConference
- *
- * @param
- * @return Cadena con información específica de EastConference
- */
 string EastConference::toString() {
-    // Aprovecha polimorfismo: esta versión se llamará cuando se use Conference*
-    // Puede reutilizar la implementación base si se desea
     string base = Conference::toString();
-    // Añadir etiqueta específica
     return "EastConference: " + nombre + " Region: " + region + "\n" + base;
 }
 
 // WestConference
 
-/**
- * Constructor por defecto
- *
- * @param
- * @return Objeto WestConference con ID 0 y máximo 15 equipos
- */
+class WestConference : public Conference {
+private:
+    int idConferencia;
+    int maxEquipos;
+public:
+    WestConference();
+    WestConference(string n, string r, int id, int max);
+    int getIdConferencia();
+    void setIdConferencia(int id);
+    int getMaxEquipos();
+    void setMaxEquipos(int m);
+    string toString() override;
+};
+
 WestConference::WestConference() : Conference() {
     idConferencia = 0;   // ID por defecto
     maxEquipos = 15;     // Máximo por defecto
 }
 
-/**
- * Constructor con parámetros
- *
- * @param n Nombre de la conferencia
- * @param r Región de la conferencia
- * @param id Identificador único
- * @param max Máximo de equipos permitidos
- * @return Objeto WestConference inicializado con valores dados
- */
 WestConference::WestConference(string n, string r, int id, int max)
     : Conference(n, r) {
     if (id >= 0) {
@@ -433,22 +390,10 @@ WestConference::WestConference(string n, string r, int id, int max)
     }
 }
 
-/**
- * Devuelve el ID de la conferencia
- *
- * @param
- * @return ID de la conferencia
- */
 int WestConference::getIdConferencia() {
     return idConferencia;
 }
 
-/**
- * Establece el ID de la conferencia con validación
- *
- * @param id Identificador único
- * @return
- */
 void WestConference::setIdConferencia(int id) {
     if (id >= 0) {
         idConferencia = id;
@@ -457,22 +402,10 @@ void WestConference::setIdConferencia(int id) {
     }
 }
 
-/**
- * Devuelve el máximo de equipos permitidos
- *
- * @param
- * @return Máximo de equipos
- */
 int WestConference::getMaxEquipos() {
     return maxEquipos;
 }
 
-/**
- * Establece el máximo de equipos permitidos con validación
- *
- * @param m Máximo de equipos
- * @return
- */
 void WestConference::setMaxEquipos(int m) {
     if (m > 0) {
         maxEquipos = m;
@@ -481,17 +414,12 @@ void WestConference::setMaxEquipos(int m) {
     }
 }
 
-/**
- * Devuelve la representación en string de WestConference
- *
- * @param
- * @return Cadena con información específica de WestConference
- */
 string WestConference::toString() {
-    // Aprovecha polimorfismo: esta versión se llamará cuando se use Conference*
     string base = Conference::toString();
     return "WestConference: " + nombre + " Region: " + region + "\n" + base;
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo
+
+
 
