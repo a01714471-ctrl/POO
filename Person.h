@@ -19,7 +19,7 @@ public:
     void setNombre(string n);
     int getEdad();
     void setEdad(int e);
-    virtual string toString(); // ahora virtual para permitir polimorfismo
+    virtual string toString() = 0; // ahora abstracta para forzar override
 };
 
 // Clase Player
@@ -143,6 +143,7 @@ void Person::setEdad(int e) {
  * @return Cadena con nombre y edad
  */
 string Person::toString() {
+    // Implementación base reutilizable aunque la función es abstracta
     return "Nombre: " + nombre +
            " Edad: " + to_string(edad);
 }
@@ -341,4 +342,3 @@ string Coach::toString() {
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo
-

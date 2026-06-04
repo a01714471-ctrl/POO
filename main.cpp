@@ -9,7 +9,7 @@
 using namespace std;
 
 int main() {
-    // Se crea una liga llamada "NBA" del año 2025
+    // Se crea una liga llamada "NBA" del año 2026
     League liga("NBA", 2026);
 
     // Control del menú principal; se repetirá hasta ser 9 (Salir)
@@ -63,10 +63,10 @@ int main() {
 
             // Creación de un objeto según el tipo indicado (Este u Oeste)
             if (tipo == 1) {
-                EastConference conf(nombre, region, 1, 15);
+                EastConference* conf = new EastConference(nombre, region, 1, 15);
                 liga.agregarConferencia(conf);
             } else {
-                WestConference conf(nombre, region, 2, 15);
+                WestConference* conf = new WestConference(nombre, region, 2, 15);
                 liga.agregarConferencia(conf);
             }
         }
@@ -177,18 +177,19 @@ int main() {
                 }
 
                 // Validación: la conferencia debe tener equipos
-                if (liga.getConferencia(posConf).getCantidadEquipos() == 0) {
+                if (liga.getConferencia(posConf) == nullptr ||
+                    liga.getConferencia(posConf)->getCantidadEquipos() == 0) {
                     cout << "Primero debes agregar un equipo.\n";
                 } else {
                     int posEquipo;
                     cout << "Selecciona equipo (0-"
-                         << liga.getConferencia(posConf).getCantidadEquipos() - 1
+                         << liga.getConferencia(posConf)->getCantidadEquipos() - 1
                          << "): ";
                     cin >> posEquipo;
                     while (posEquipo < 0 ||
-                           posEquipo >= liga.getConferencia(posConf).getCantidadEquipos()) {
+                           posEquipo >= liga.getConferencia(posConf)->getCantidadEquipos()) {
                         cout << "Opcion invalida. Selecciona equipo (0-"
-                             << liga.getConferencia(posConf).getCantidadEquipos() - 1
+                             << liga.getConferencia(posConf)->getCantidadEquipos() - 1
                              << "): ";
                         cin >> posEquipo;
                     }
@@ -251,8 +252,8 @@ int main() {
                          << liga.getCantidadConferencias() - 1 << "): ";
                     cin >> posConf;
                 }
-                cout << liga.getConferencia(posConf).toString() << endl;
-                // Impresión de la conferencia seleccionada
+                Conference* c = liga.getConferencia(posConf);
+                if (c != nullptr) cout << c->toString() << endl;
             }
         }
 
@@ -272,24 +273,24 @@ int main() {
                     cin >> posConf;
                 }
 
-                if (liga.getConferencia(posConf).getCantidadEquipos() == 0) {
+                if (liga.getConferencia(posConf) == nullptr ||
+                    liga.getConferencia(posConf)->getCantidadEquipos() == 0) {
                     cout << "No hay equipos en esta conferencia.\n";
                 } else {
                     int posEquipo;
                     cout << "Selecciona equipo (0-"
-                         << liga.getConferencia(posConf).getCantidadEquipos() - 1
+                         << liga.getConferencia(posConf)->getCantidadEquipos() - 1
                          << "): ";
                     cin >> posEquipo;
                     while (posEquipo < 0 ||
-                           posEquipo >= liga.getConferencia(posConf).getCantidadEquipos()) {
+                           posEquipo >= liga.getConferencia(posConf)->getCantidadEquipos()) {
                         cout << "Opcion invalida. Selecciona equipo (0-"
-                             << liga.getConferencia(posConf).getCantidadEquipos() - 1
+                             << liga.getConferencia(posConf)->getCantidadEquipos() - 1
                              << "): ";
                         cin >> posEquipo;
                     }
-                    cout << liga.getConferencia(posConf)
-                                   .getEquipo(posEquipo).toString()
-                         << endl;
+                    Team equipo = liga.getConferencia(posConf)->getEquipo(posEquipo);
+                    cout << equipo.toString() << endl;
                 }
             }
         }
@@ -343,19 +344,20 @@ int main() {
                         cin >> posConf;
                     }
 
-                    if (liga.getConferencia(posConf).getCantidadEquipos() == 0) {
+                    if (liga.getConferencia(posConf) == nullptr ||
+                        liga.getConferencia(posConf)->getCantidadEquipos() == 0) {
                         cout << "No hay equipos en esta conferencia.\n";
                     } else {
                         int posEquipo;
                         cout << "Selecciona equipo (0-"
-                             << liga.getConferencia(posConf).getCantidadEquipos() - 1
+                             << liga.getConferencia(posConf)->getCantidadEquipos() - 1
                              << "): ";
                         cin >> posEquipo;
                         while (posEquipo < 0 ||
                                posEquipo >= liga.getConferencia(posConf)
-                                                 .getCantidadEquipos()) {
+                                                 ->getCantidadEquipos()) {
                             cout << "Opcion invalida. Selecciona equipo (0-"
-                                 << liga.getConferencia(posConf).getCantidadEquipos() - 1
+                                 << liga.getConferencia(posConf)->getCantidadEquipos() - 1
                                  << "): ";
                             cin >> posEquipo;
                         }
@@ -374,40 +376,40 @@ int main() {
                         cin >> posConf;
                     }
 
-                    if (liga.getConferencia(posConf).getCantidadEquipos() == 0) {
+                    if (liga.getConferencia(posConf) == nullptr ||
+                        liga.getConferencia(posConf)->getCantidadEquipos() == 0) {
                         cout << "No hay equipos en esta conferencia.\n";
                     } else {
                         int posEquipo;
                         cout << "Selecciona equipo (0-"
-                             << liga.getConferencia(posConf).getCantidadEquipos() - 1
+                             << liga.getConferencia(posConf)->getCantidadEquipos() - 1
                              << "): ";
                         cin >> posEquipo;
                         while (posEquipo < 0 ||
                                posEquipo >= liga.getConferencia(posConf)
-                                                 .getCantidadEquipos()) {
+                                                 ->getCantidadEquipos()) {
                             cout << "Opcion invalida. Selecciona equipo (0-"
-                                 << liga.getConferencia(posConf).getCantidadEquipos() - 1
-                                 << "): ";
+                                 << liga.getConferencia(posConf)->getCantidadEquipos() - 1 << "): ";
                             cin >> posEquipo;
                         }
 
                         if (liga.getConferencia(posConf)
-                                .getEquipo(posEquipo).getCantidadJugadores() == 0) {
+                                ->getEquipo(posEquipo).getCantidadJugadores() == 0) {
                             cout << "No hay jugadores en este equipo.\n";
                         } else {
                             int posJugador;
                             cout << "Selecciona jugador (0-"
                                  << liga.getConferencia(posConf)
-                                        .getEquipo(posEquipo)
+                                        ->getEquipo(posEquipo)
                                         .getCantidadJugadores() - 1 << "): ";
                             cin >> posJugador;
                             while (posJugador < 0 ||
                                    posJugador >= liga.getConferencia(posConf)
-                                                      .getEquipo(posEquipo)
+                                                      ->getEquipo(posEquipo)
                                                       .getCantidadJugadores()) {
                                 cout << "Opcion invalida. Selecciona jugador (0-"
                                      << liga.getConferencia(posConf)
-                                            .getEquipo(posEquipo)
+                                            ->getEquipo(posEquipo)
                                             .getCantidadJugadores() - 1 << "): ";
                                 cin >> posJugador;
                             }

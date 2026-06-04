@@ -24,9 +24,9 @@ public:
     int getAnio();
     void setAnio(int a);
 
-    void agregarConferencia(Conference c);
+    void agregarConferencia(Conference* c);
     void eliminarConferencia(int posicionConferencia);
-    Conference getConferencia(int posicionConferencia);
+    Conference* getConferencia(int posicionConferencia);
     int getCantidadConferencias();
 
     void agregarEquipoEnConferencia(int posicionConf, Team equipo);
@@ -132,13 +132,12 @@ void League::setAnio(int a) {
 /**
  * Agrega una conferencia a la liga
  *
- * @param c Objeto Conference a agregar
+ * @param c Puntero a Conference (puede ser EastConference o WestConference)
  * @return
  */
-void League::agregarConferencia(Conference c) {
+void League::agregarConferencia(Conference* c) {
     if (cantidadConferencias < 2) {
-        // crear copia en heap y almacenar puntero
-        conferencias[cantidadConferencias] = new Conference(c);
+        conferencias[cantidadConferencias] = c;
         cantidadConferencias++;
         cout << "Conferencia agregada correctamente." << endl;
     } else {
@@ -176,20 +175,15 @@ void League::eliminarConferencia(int posicionConferencia) {
  * Devuelve una conferencia por posición
  *
  * @param posicionConferencia Índice de la conferencia
- * @return Objeto Conference válido o vacío si la posición es inválida
+ * @return Puntero a Conference o nullptr si la posición es inválida
  */
-Conference League::getConferencia(int posicionConferencia) {
+Conference* League::getConferencia(int posicionConferencia) {
     if (posicionConferencia >= 0 &&
         posicionConferencia < cantidadConferencias) {
-        if (conferencias[posicionConferencia] != nullptr) {
-            return *conferencias[posicionConferencia]; // copia por valor
-        } else {
-            return Conference();
-        }
+        return conferencias[posicionConferencia];
     } else {
-        cout << "Posicion invalida. Se devuelve una conferencia vacia."
-             << endl;
-        return Conference();
+        cout << "Posicion invalida. Se devuelve nullptr." << endl;
+        return nullptr;
     }
 }
 
@@ -315,3 +309,4 @@ string League::toString() {
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo
+

@@ -37,7 +37,7 @@ public:
                                  int posicionJugador);
 
     // Método para mostrar información completa de la conferencia
-    string toString();
+    virtual string toString() = 0; // ahora abstracta para forzar override
 };
 
 // Clase EastConference
@@ -54,6 +54,7 @@ public:
     void setIdConferencia(int id);
     int getMaxEquipos();
     void setMaxEquipos(int m);
+    string toString() override; // override
 };
 
 // Clase WestConference
@@ -70,6 +71,7 @@ public:
     void setIdConferencia(int id);
     int getMaxEquipos();
     void setMaxEquipos(int m);
+    string toString() override; // override
 };
 
 // IMPLEMENTACIÓN DE MÉTODOS
@@ -280,6 +282,7 @@ void Conference::eliminarJugadorEnEquipo(int posicionEquipo,
  * @return Cadena con nombre, región y los equipos registrados
  */
 string Conference::toString() {
+    // Implementación base reutilizable aunque la función es abstracta
     string info = "Conferencia: " + nombre +
                   " Region: " + region + "\n";
     if (cantidadEquipos == 0) {
@@ -320,8 +323,16 @@ EastConference::EastConference() : Conference() {
  */
 EastConference::EastConference(string n, string r, int id, int max)
     : Conference(n, r) {
-    idConferencia = (id >= 0) ? id : 0;     // Asigna ID recibido (>=0) o 0
-    maxEquipos   = (max > 0) ? max : 15;    // Asigna máximo (>0) o 15
+    if (id >= 0) {
+        idConferencia = id;
+    } else {
+        idConferencia = 0;
+    }
+    if (max > 0) {
+        maxEquipos = max;
+    } else {
+        maxEquipos = 15;
+    }
 }
 
 /**
@@ -341,7 +352,11 @@ int EastConference::getIdConferencia() {
  * @return
  */
 void EastConference::setIdConferencia(int id) {
-    idConferencia = (id >= 0) ? id : 0;
+    if (id >= 0) {
+        idConferencia = id;
+    } else {
+        idConferencia = 0;
+    }
 }
 
 /**
@@ -361,7 +376,25 @@ int EastConference::getMaxEquipos() {
  * @return
  */
 void EastConference::setMaxEquipos(int m) {
-    maxEquipos = (m > 0) ? m : 15;
+    if (m > 0) {
+        maxEquipos = m;
+    } else {
+        maxEquipos = 15;
+    }
+}
+
+/**
+ * Devuelve la representación en string de EastConference
+ *
+ * @param
+ * @return Cadena con información específica de EastConference
+ */
+string EastConference::toString() {
+    // Aprovecha polimorfismo: esta versión se llamará cuando se use Conference*
+    // Puede reutilizar la implementación base si se desea
+    string base = Conference::toString();
+    // Añadir etiqueta específica
+    return "EastConference: " + nombre + " Region: " + region + "\n" + base;
 }
 
 // WestConference
@@ -388,8 +421,16 @@ WestConference::WestConference() : Conference() {
  */
 WestConference::WestConference(string n, string r, int id, int max)
     : Conference(n, r) {
-    idConferencia = (id >= 0) ? id : 0;     // Asigna ID recibido (>=0) o 0
-    maxEquipos   = (max > 0) ? max : 15;    // Asigna máximo (>0) o 15
+    if (id >= 0) {
+        idConferencia = id;
+    } else {
+        idConferencia = 0;
+    }
+    if (max > 0) {
+        maxEquipos = max;
+    } else {
+        maxEquipos = 15;
+    }
 }
 
 /**
@@ -409,7 +450,11 @@ int WestConference::getIdConferencia() {
  * @return
  */
 void WestConference::setIdConferencia(int id) {
-    idConferencia = (id >= 0) ? id : 0;
+    if (id >= 0) {
+        idConferencia = id;
+    } else {
+        idConferencia = 0;
+    }
 }
 
 /**
@@ -429,7 +474,23 @@ int WestConference::getMaxEquipos() {
  * @return
  */
 void WestConference::setMaxEquipos(int m) {
-    maxEquipos = (m > 0) ? m : 15;
+    if (m > 0) {
+        maxEquipos = m;
+    } else {
+        maxEquipos = 15;
+    }
+}
+
+/**
+ * Devuelve la representación en string de WestConference
+ *
+ * @param
+ * @return Cadena con información específica de WestConference
+ */
+string WestConference::toString() {
+    // Aprovecha polimorfismo: esta versión se llamará cuando se use Conference*
+    string base = Conference::toString();
+    return "WestConference: " + nombre + " Region: " + region + "\n" + base;
 }
 
 #endif // Cierra la protección contra múltiples inclusiones del archivo

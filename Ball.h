@@ -20,9 +20,9 @@ public:
     void setMarca(string m);        // Establece la marca del balón
     float getTamano();              // Devuelve el tamaño del balón
     void setTamano(float t);        // Establece el tamaño del balón
-    virtual void rebotar();         // Simula que el balón rebota (mensaje en
+    void rebotar();                 // Simula que el balón rebota (mensaje en
                                     // consola)
-    virtual string toString();      // Devuelve info completa del balón en
+    string toString();              // Devuelve info completa del balón en
                                     // formato string
 };
 
