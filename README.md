@@ -3,7 +3,7 @@
 ## Liga de Basketball en c++
 Este proyecto consiste en el desarrollo de un sistema de gestión de una liga de basketball utilizando Programación Orientada a Objetos en C++. El sistema fue diseñado a partir de un diagrama de clases UML que representa la estructura de una liga deportiva real, incluyendo conferencias, equipos, jugadores, entrenadores y balones.
 
-El objetivo principal del proyecto es aplicar conceptos de POO como herencia, encapsulamiento y agregación, además de modelar correctamente un problema real mediante clases y relaciones entre objetos.
+El objetivo principal del proyecto es aplicar conceptos de POO como herencia, encapsulamiento, agregación, polimorfismo y clases abstractas, además de modelar correctamente un problema real mediante clases y relaciones entre objetos.
 
 ##  ¿Para qué sirve?
 - Simula una liga de baloncesto con conferencias (Este y Oeste), equipos y jugadores.
@@ -19,6 +19,8 @@ El objetivo principal del proyecto es aplicar conceptos de POO como herencia, en
 - No guarda datos en archivos ni en bases de datos (la información se pierde al cerrar el programa).
 - No tiene interfaz gráfica: funciona únicamente en consola.
 - No está diseñado para uso profesional en gestión de ligas deportivas, solo como proyecto académico.
+- No está optimizado para grandes volúmenes de datos: usa arreglos fijos y manejo manual de heap, lo que limita escalabilidad y robustez frente a errores humanos.
+- No es una solución de producción para gestión real de ligas (no hay persistencia, concurrencia ni validación avanzada).
 
 ## Cómo se usa
 1. Compilar el proyecto con un compilador C++.  
@@ -39,8 +41,9 @@ Para resolver el problema se identificaron las siguientes clases principales:
 4. Team representa un equipo de basketball.
 5. Person clase base para personas dentro del sistema.
 6. Player representa a un jugador.
-7. Coach representa a un entrenador.
-8. Ball representa el balón utilizado por un equipo.
+7. Star Player deriva de player
+8. Coach representa a un entrenador.
+9. Ball representa el balón utilizado por un equipo.
 
 Estas clases fueron seleccionadas porque representan directamente los elementos necesarios para modelar una liga deportiva y permiten dividir correctamente las responsabilidades del sistema.
 
@@ -53,6 +56,10 @@ Cada equipo cuenta con lo siguiente, varios jugadores, un entrenador y un balón
 
 La herencia entre Person, Player y Coach permite reutilizar atributos comunes como nombre y edad. Además, las clases EastConference y WestConference permiten especializar las conferencias dependiendo de la región.
 
+Punteros en heap están anotados en el UML (Person*[10], Team*[15], Conference*[2]) para indicar propiedad dinámica y multiplicidad fija; esto mapea directamente a los arreglos de punteros usados en el código.
+
+Método clone() aparece en UML como mecanismo explícito para evitar slicing y permitir copias polimórficas cuando Team almacena jugadores en heap.
+
 Gracias a esta estructura, el diagrama UML se relaciona directamente con el problema planteado y facilita la organización del sistema de manera clara y modular.
 
 ## Casos que podrían hacer fallar el proyecto
@@ -64,6 +71,8 @@ Durante el desarrollo se identificaron algunos casos que podrían provocar error
 5. No validar correctamente índices o posiciones.
 6. Sobrescribir objetos dentro de arreglos estáticos.
 7. Problemas de memoria si se implementa el manejo dinámico incorrectamente.
+8. No llamar a liberarRecursos antes de delete, lo que causa fugas de memoria.
+9. Eliminar una conferencia sin liberar sus equipos (o eliminar un equipo sin liberar sus jugadores), causa fugas de memoria.
 
 Para evitar estos problemas se deben implementar validaciones en cada método que agregue, elimine o modifique información.
 
@@ -73,13 +82,11 @@ En C++ el polimorfismo se logra gracias a los métodos virtuales. Cuando una cla
 Para indicar explícitamente que un método en una clase derivada sobrescribe un método virtual de la clase base, se usa la palabra clave override.
 
 ## ¿Por qué lo uso en mi proyecto?
-Claridad y seguridad: override deja claro que el método redefine uno virtual de la clase base.
+Claridad y seguridad del compilador: override obliga al compilador a verificar que la función realmente está sobrescribiendo una función virtual de la clase base; si la firma no coincide, el compilador emite un error.
 
-Evita errores: si cambias la firma en la clase derivada por accidente, el compilador lo detecta.
+Garantía de comportamiento polimórfico: al marcar toString() y clone() con override en las clases derivadas, se asegura que las llamadas virtuales a través de punteros a la base ejecutarán la implementación correcta del tipo real.
 
-Polimorfismo real: gracias a override, cuando trabajas con punteros a la clase base (Person*, Ball*), las llamadas se dirigen a la implementación correcta en la clase derivada (Player, Coach, BasketballBall, etc.).
-
-Consistencia: en tu proyecto, toString() y rebotar() son los métodos que cambian según el tipo de objeto. Usar override garantiza que cada clase derivada muestre su información específica al invocarse desde un puntero base.
+Mantenimiento y legibilidad: override comunica explícitamente la intención del programador: “esta función reemplaza la versión base”, lo que facilita la revisión y evita errores sutiles por firmas mal escritas.
 
 ## Ejecución del programa
 Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
