@@ -101,3 +101,12 @@ Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
 ## Diagrama de clases
 Para visualizar el diagrama de clases, da clic aquí:
 [Diagrama de clases](./Diagrama%20de%20clases.pdf)
+
+## Correcciones
+Para desarrollar la subcompetencia "Genero un diagrama de clases UML correcto y y explico su relación con el problema de forma clara", que pertenece a la competemcia SICT0301A: Evalúa los componentes que integran una problemática, elaboré un diagrama de clases UML que representa la estructura de una liga deportiva mediante las clases Liga, Conferencia, Equipo, Persona y balón. Definí correctamente sus relaciones y expliqué cómo cada una contribuye a la solución del problema, permitiendo una implementación organizada en C++.
+
+Para desarrollar la subcompetencia "Se implementa de manera correcta el concepto de Polimorfismo" perteneciente al competencia SICT0303A, implementé correctamente el concepto de polimorfismo mediante el uso de clases base y métodos sobrescritos en las clases derivadas. Esto permitió que diferentes objetos respondieran de manera específica a una misma operación, favoreciendo la flexibilidad, reutilización y organización del código dentro de la solución propuesta.
+
+Para desarrollar la competencia de "Se implementa de manera correcta el concepto de Clases Abstractas", que pertenece a la competencia SICT0303A, implementé correctamente el concepto de clases abstractas mediante la definición de clases base que establecen comportamientos generales y métodos virtuales puros. Las clases derivadas heredaron estas estructuras e implementaron sus propias versiones de dichos métodos, permitiendo una organización más clara y un mejor aprovechamiento de la programación orientada a objetos.
+
+Para desarrollar la competencia SICT0303A, utilicé herramientas de control de versiones para gestionar los cambios realizados durante el desarrollo del proyecto. Además, incorporé documentación útil en el repositorio, describiendo la estructura, funcionamiento y forma de uso del sistema, facilitando su comprensión y mantenimiento.
